@@ -460,6 +460,11 @@ var QRCode;
 			drawRoundRect(this._oContext, x, y, width, height, this._htOption.iconRadius, this._htOption.iconBorderWidth, this._htOption.iconBorderColor);
 			this._oContext.save();
 			this._oContext.clip();
+
+			// 给icon添加白色背景色，以防icon为透明底
+			this._oContext.fillStyle = '#ffffff';
+			this._oContext.fill();
+
 			this._oContext.drawImage(image, x, y, width, height);
 			this._oContext.restore();
 		};
@@ -652,7 +657,8 @@ var QRCode;
 		this._oQRCode = new QRCodeModel(_getTypeNumber(sText, this._htOption.correctLevel), this._htOption.correctLevel);
 		this._oQRCode.addData(sText);
 		this._oQRCode.make();
-		this._el.title = sText;
+		// 去掉二维码Title
+		// this._el.title = sText;
 		const offsetExists = typeof(this._htOption.qrcodeOffsetX) !== "undefined" && typeof(this._htOption.qrcodeOffsetY) !== "undefined";
 		const curtainExists = typeof(this._htOption.curtainWidth) !== "undefined" && typeof(this._htOption.curtainHeight) !== "undefined";
 		const curtainImgExists = typeof(this._htOption.curtainImg) !== "undefined";
@@ -722,3 +728,8 @@ var QRCode;
 	 */
 	QRCode.CorrectLevel = QRErrorCorrectLevel;
 })();
+
+// 添加Module支持，可以在Vue中导入
+if (module && module.exports) {
+  module.exports = QRCode;
+}
