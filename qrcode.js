@@ -644,7 +644,11 @@ var QRCode;
 		this._oDrawing = new Drawing(this._el, this._htOption);
 		
 		if (this._htOption.text) {
-			this.makeCode(this._htOption.text);	
+			if (this._htOption.iconSrc) {
+				this.makeCode(this._htOption.text, this._htOption.iconSrc);
+			} else {
+				this.makeCode(this._htOption.text);
+			}
 		}
 	};
 	
@@ -653,7 +657,7 @@ var QRCode;
 	 * 
 	 * @param {String} sText link data
 	 */
-	QRCode.prototype.makeCode = async function (sText) {
+	QRCode.prototype.makeCode = async function (sText, iconSrc) {
 		this._oQRCode = new QRCodeModel(_getTypeNumber(sText, this._htOption.correctLevel), this._htOption.correctLevel);
 		this._oQRCode.addData(sText);
 		this._oQRCode.make();
@@ -683,8 +687,10 @@ var QRCode;
 			this._oDrawing._oContext.clip();
 		}
 		this._oDrawing.draw(this._oQRCode);
-		
-		if(typeof(this._htOption.iconSrc) !== "undefined") {
+
+		if (typeof (iconSrc) !== "undefined") {
+			await this._oDrawing.addIcon(iconSrc);
+		} else if(typeof(this._htOption.iconSrc) !== "undefined") {
 			//这里是异步的函数，只有加了await才会变成同步（注意：即使函数里面有await，这个函数也是异步执行的）
 			await this._oDrawing.addIcon(this._htOption.iconSrc);
 		}
