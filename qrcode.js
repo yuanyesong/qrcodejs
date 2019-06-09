@@ -283,7 +283,7 @@ var QRCode;
 			this._elImage.src = this._elCanvas.toDataURL("image/png");
 			this._elImage.style.display = "block";
 			//如果没有中心icon的话，二维码display会被设为none
-			//this._elCanvas.style.display = "none";			
+			this._elCanvas.style.display = "none";
 		}
 		
 		// Android 2.1 bug workaround
@@ -371,7 +371,7 @@ var QRCode;
 			this._elImage = document.createElement("img");
 			this._elImage.alt = "Scan me!";
 			this._elImage.style.display = "none";
-			//this._el.appendChild(this._elImage);
+			this._el.appendChild(this._elImage);
 			this._bSupportDataURI = null;
 		};
 			
